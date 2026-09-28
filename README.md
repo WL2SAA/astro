@@ -1,2 +1,3 @@
 # astro
-astro is a Agentic AI Playground Driven by Gemini at its core: Expermental Made With AGY_CLI
+astro is a pack of wallpapers updated every month!
+
