@@ -7,7 +7,6 @@
 Preview, search, filter, and download all wallpapers in a responsive web app:
 
 - **Open locally:** Simply open [`index.html`](index.html) directly in your browser or run `python -m http.server 8000`
-- **GitHub Pages ready:** Enable GitHub Pages in your repository settings (`Settings` -> `Pages` -> Source: `Deploy from a branch` -> Branch: `main` / `root`) to publish the website live!
 
 ## 📁 Repository Structure
 
