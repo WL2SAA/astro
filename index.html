@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="mocha">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>astro • Curated Monthly Wallpapers</title>
+  <meta name="description" content="A curated collection of aesthetic Desktop and Phone wallpapers updated monthly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand">
+        <span class="brand-logo">✨</span>
+        <div class="brand-text">
+          <span class="brand-name">astro</span>
+          <span class="brand-badge">monthly</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="btn btn-icon" title="Toggle Theme" aria-label="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+
+        <!-- Donate Button -->
+        <button id="openDonateBtn" class="btn btn-donate" title="Support project via UPI">
+          <span>☕</span>
+          <span class="btn-text">Support / Donate</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Aesthetic Wallpapers,<br><span class="gradient-text">Updated Monthly</span></h1>
+      <p class="hero-subtitle">
+        Curated high-resolution wallpapers for Desktop & Phone.
+        Categorized by theme, optimized for your setup.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="totalCount">54</span>
+          <span class="stat-label">Wallpapers</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="desktopCount">23</span>
+          <span class="stat-label">Desktop</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number" id="phoneCount">31</span>
+          <span class="stat-label">Phone</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Free</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls / Filter Section -->
+  <main class="main-container">
+    <section class="controls-section">
+      <!-- Search & Device Filter Row -->
+      <div class="controls-top">
+        <!-- Device Tabs -->
+        <div class="device-tabs" role="tablist" aria-label="Device selection">
+          <button class="tab-btn active" data-device="all" role="tab" aria-selected="true">
+            <span class="tab-icon">🌐</span> All Wallpapers
+          </button>
+          <button class="tab-btn" data-device="Desktop" role="tab" aria-selected="false">
+            <span class="tab-icon">🖥️</span> Desktop
+          </button>
+          <button class="tab-btn" data-device="Phone" role="tab" aria-selected="false">
+            <span class="tab-icon">📱</span> Phone
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by name, category, or style... (Press / to focus)" aria-label="Search wallpapers">
+          <button id="clearSearchBtn" class="clear-btn" aria-label="Clear search" style="display: none;">✕</button>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="categories-bar">
+        <span class="filter-label">Categories:</span>
+        <div class="category-chips" id="categoryChips">
+          <button class="chip active" data-category="all">All</button>
+          <!-- Dynamic category chips will be injected here -->
+        </div>
+      </div>
+
+      <!-- Results status bar -->
+      <div class="results-bar">
+        <span id="resultsCount">Showing all wallpapers</span>
+        <div class="view-toggles">
+          <button id="gridCompactBtn" class="btn btn-sm btn-outline" title="Compact Grid">Compact</button>
+          <button id="gridSpaciousBtn" class="btn btn-sm btn-outline active" title="Comfortable Grid">Spacious</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wallpaper Gallery Grid -->
+    <section class="gallery-container">
+      <div id="wallpaperGrid" class="wallpaper-grid">
+        <!-- Wallpaper cards injected dynamically via app.js -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <span class="empty-icon">🎨</span>
+        <h3>No wallpapers found</h3>
+        <p>Try searching for something else or reset your active filters.</p>
+        <button id="resetFiltersBtn" class="btn btn-primary">Reset Filters</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Fullscreen Preview Modal (<dialog>) -->
+  <dialog id="previewModal" class="modal-dialog preview-dialog" aria-labelledby="modalTitle">
+    <div class="modal-content preview-content">
+      <header class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="modalTitle" class="modal-title">Wallpaper Title</h2>
+          <div class="modal-badges">
+            <span id="modalDeviceBadge" class="badge">Desktop</span>
+            <span id="modalCategoryBadge" class="badge badge-accent">Category</span>
+            <span id="modalResolutionBadge" class="badge badge-dim">1920x1080</span>
+          </div>
+        </div>
+        <button id="closeModalBtn" class="btn btn-icon modal-close" aria-label="Close dialog">✕</button>
+      </header>
+
+      <div class="preview-media-container">
+        <button id="prevBtn" class="nav-arrow nav-prev" aria-label="Previous wallpaper" title="Previous (Left Arrow)">❮</button>
+        <div class="preview-image-wrapper">
+          <img id="modalImage" src="" alt="Wallpaper preview" class="modal-image">
+        </div>
+        <button id="nextBtn" class="nav-arrow nav-next" aria-label="Next wallpaper" title="Next (Right Arrow)">❯</button>
+      </div>
+
+      <footer class="modal-footer">
+        <div class="modal-meta">
+          <span id="modalSize" class="meta-item">💾 Size</span>
+          <span id="modalFilename" class="meta-item filename-text">Filename</span>
+        </div>
+        <div class="modal-actions">
+          <button id="copyLinkBtn" class="btn btn-outline">
+            <span>🔗</span> Copy Path
+          </button>
+          <a id="modalDownloadBtn" href="#" download class="btn btn-primary">
+            <span>⬇️</span> Download Full Res
+          </a>
+        </div>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Support & Donate Modal (<dialog>) -->
+  <dialog id="donateModal" class="modal-dialog donate-dialog" aria-labelledby="donateTitle">
+    <div class="modal-content donate-content">
+      <header class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="donateTitle" class="modal-title">☕ Support astro</h2>
+          <span class="modal-subtitle">Keep monthly wallpaper updates coming!</span>
+        </div>
+        <button id="closeDonateModalBtn" class="btn btn-icon modal-close" aria-label="Close dialog">✕</button>
+      </header>
+
+      <div class="donate-body">
+        <p class="donate-desc">
+          If you enjoy these wallpapers and want to support ongoing monthly curation and updates, you can tip directly via UPI!
+        </p>
+
+        <div class="upi-box">
+          <div class="upi-label">UPI ID</div>
+          <div class="upi-value-row">
+            <code class="upi-id" id="upiIdText">n0tharshit@fam</code>
+            <button id="copyUpiBtn" class="btn btn-primary btn-copy" title="Copy UPI ID">
+              <span>📋</span> Copy
+            </button>
+          </div>
+        </div>
+
+        <div class="donate-tips">
+          <span>✨ Supports any UPI app (GPay, PhonePe, Paytm, CRED, BHIM)</span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo">✨ astro</span>
+          <p>Curated aesthetic wallpaper packs updated every month.</p>
+        </div>
+        <div class="footer-donate-cta">
+          <button class="btn btn-sm btn-donate" id="footerDonateBtn">☕ Donate: <code>n0tharshit@fam</code></button>
+        </div>
+      </div>
+
+      <div class="footer-notice">
+        <p>
+          ⚠️ <strong>Disclaimer & Credits:</strong> All wallpapers featured in this repository were collected and downloaded from <strong>Pinterest</strong>. All rights, trademarks, and copyrights belong to their respective original artists and creators. If you are the owner of any artwork included here and wish to have it credited or removed, please open an issue on the GitHub repository.
+        </p>
+      </div>
+
+      <div class="footer-bottom">
+        <span>astro Wallpaper Collection</span>
+        <span>•</span>
+        <a href="https://github.com/WL2SAA/astro" target="_blank" rel="noopener">GitHub Repository</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="wallpapers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
